@@ -1,23 +1,27 @@
-import { useState } from "react";
-import { ColoredMessage } from "./components/ColoredMessage";
+import { useState, memo, useCallback } from "react";
+import { Child1 } from "./components/Child1";
+import { Child4 } from "./components/Child4";
+import { use } from "react";
 
-export const App = () => {
+const App = memo(() => {
+  console.log("rendered App");
   const [num, setNum] = useState(0);
-  const [num2, setNum2] = useState(0);
   const onClickButton = () => {
     setNum(num + 1);
-    setNum(num + 1);
-    setNum2(prev => prev + 1);
-    setNum2(prev => prev + 1);
   };
+  const onClickReset = useCallback(() => {
+    setNum(0);
+  } ,[]);
   return (
     <div>
-      <h1 id="message">Hello World!!!</h1>
-      <ColoredMessage color="blue">How are you?</ColoredMessage>
-      <ColoredMessage color="pink">I am fine.</ColoredMessage>
       <button onClick={onClickButton}>button</button>
       <p>{num}</p>
-      <p>{num2}</p>
+      <Child1 onClickReset={onClickReset} />
+      <Child4 />
     </div>
   );
-};
+});
+
+App.displayName = "App";
+
+export { App };
