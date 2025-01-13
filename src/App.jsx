@@ -1,27 +1,18 @@
-import { useState, memo, useCallback } from "react";
-import { Child1 } from "./components/Child1";
-import { Child4 } from "./components/Child4";
-import { use } from "react";
+import { useState } from "react";
+import { Card } from "./components/Card";
 
-const App = memo(() => {
-  console.log("rendered App");
-  const [num, setNum] = useState(0);
-  const onClickButton = () => {
-    setNum(num + 1);
+export const App = () => {
+  const [ isAdmin, setIsAdmin ] = useState(false);
+
+  const onClickSwitch = () => {
+    setIsAdmin(!isAdmin);
   };
-  const onClickReset = useCallback(() => {
-    setNum(0);
-  } ,[]);
+
   return (
     <div>
-      <button onClick={onClickButton}>button</button>
-      <p>{num}</p>
-      <Child1 onClickReset={onClickReset} />
-      <Child4 />
+      { isAdmin? <span>管理者ユーザーです</span>: <span>一般ユーザーです</span> }
+      <button onClick={onClickSwitch}>切り替え</button>
+      <Card isAdmin={isAdmin} />
     </div>
   );
-});
-
-App.displayName = "App";
-
-export { App };
+}
